@@ -7,9 +7,9 @@ The main driver to built this example is to provide an easy event-driven archite
 
 The Event Bus supports 3 integration patterns:
 
-    1.- [Publish-Subscribe](http://www.enterpriseintegrationpatterns.com/PublishSubscribeChannel.html)
-    2.- [Point-to-point](http://www.enterpriseintegrationpatterns.com/PointToPointChannel.html)
-    3.- [Request-Reply](http://www.enterpriseintegrationpatterns.com/RequestReply.html). This pattern is implemented using async in memory response. When the client send a message, it also defines the EventCallback that will process the response from the EventHandler.
+    1. [Publish-Subscribe](http://www.enterpriseintegrationpatterns.com/PublishSubscribeChannel.html)
+    2. [Point-to-point](http://www.enterpriseintegrationpatterns.com/PointToPointChannel.html)
+    3. [Request-Reply](http://www.enterpriseintegrationpatterns.com/RequestReply.html). This pattern is implemented using async in memory response. When the client send a message, it also defines the EventCallback that will process the response from the EventHandler.
 
 This library can be used to implement a MicroServices architecture using distributed Event Handler ....  
 
