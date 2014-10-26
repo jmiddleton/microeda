@@ -3,7 +3,7 @@ microEDA
 
 MicroEDA provides a simple event-driven messaging layer on top of Hazelcast to be used on Spring applications.
 
-The main driver to built this example is to provide an easy event-driven architecture for Spring applications. After some investigation about different event-driven/actor/reactor/proactor frameworks I found complex the way those frameworks work and difficult to integrate with my actual preferred tecnology stack.
+After evaluating different event-driven/actor/reactor/proactor frameworks, I found complex the way those frameworks work and difficult to integrate with my preferred tecnology stack so I decided to build this small library following some good ideas from Vert.x. The final product is a Distributed Event Bus on top of Hazelcast that dispatches messages across different JVM. 
 
 The Event Bus supports 3 integration patterns:
 
