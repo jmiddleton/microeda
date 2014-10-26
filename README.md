@@ -7,11 +7,13 @@ The main driver to built this example is to provide an easy event-driven archite
 
 The Event Bus supports 3 integration patterns:
 
-    1. [Publish-Subscribe](http://www.enterpriseintegrationpatterns.com/PublishSubscribeChannel.html)
-    2. [Point-to-point](http://www.enterpriseintegrationpatterns.com/PointToPointChannel.html)
-    3. [Request-Reply](http://www.enterpriseintegrationpatterns.com/RequestReply.html). This pattern is implemented using async in memory response. When the client send a message, it also defines the EventCallback that will process the response from the EventHandler.
+* [Publish-Subscribe](http://www.enterpriseintegrationpatterns.com/PublishSubscribeChannel.html): Event will be delivered to an endpoint. MicroEDA will deliver the event to all Handlers registered to the endpoint.
+* [Point-to-point](http://www.enterpriseintegrationpatterns.com/PointToPointChannel.html): The Event will be delivered to only one Handler. If many handlers are registered to the same endpoint, MicroEDA will choose one based on a simple Round Robin algorithm.
+* [Request-Reply](http://www.enterpriseintegrationpatterns.com/RequestReply.html): When the client send a Event, it will also specify an EventCallback which will process the response from the EventHandler. This pattern is implemented using Future API. 
 
-This library can be used to implement a MicroServices architecture using distributed Event Handler ....  
+MicroEDA can be used to implement a MicroServices Architecture where the services can be distributed across the cluster.
+
+MicroEDA is aligned and shares the same ideas of the [Reactive Manifesto](http://www.reactivemanifesto.org/).
 
 ### Getting Started
 
