@@ -1,9 +1,9 @@
 microEDA
 ========
 
-MicroEDA provides a simple event-driven messaging layer on top of Hazelcast. MicroEDA is based on Spring framework and can be easily embedded in a single JVM or clustered across multiples nodes.
+MicroEDA provides a simple event-driven messaging layer on top of Hazelcast. MicroEDA is based on Spring framework and can be easily embedded in a single JVM or clustered across multiples nodes. The design is heavily influenced by [Vert.x](http://vertx.io) and the [Reactor pattern](http://en.wikipedia.org/wiki/Reactor_pattern).
 
-After evaluating different event-driven/actor/reactor/proactor frameworks, I found complex the way those frameworks work and difficult to integrate with my preferred tecnology stack so I decided to build this small library following some good ideas from Vert.x. The final product is a Distributed Event Bus on top of Hazelcast that dispatches messages across different JVM. 
+After evaluating different event-driven/actor/reactor/proactor frameworks, I found complex the way those frameworks work and difficult to integrate with my preferred tecnology stack so I decided to build this small library following some simple good ideas from Vert.x. The final product is a Distributed Event Bus on top of Hazelcast that dispatches messages across different JVM. 
 
 The Event Bus supports 3 integration patterns:
 
