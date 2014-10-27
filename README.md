@@ -55,7 +55,11 @@ cd microeda/microeda-test
 mvn test
 ```
 
+<<<<<<< HEAD
 After that, on the first console, you should see entry logs prefixed with "Quote n:"
+=======
+If the run executed successfully, on the first console you should see entry logs prefixed with "Quote".
+>>>>>>> FETCH_HEAD
 
 
 TODO: continue....
