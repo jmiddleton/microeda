@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.tunuyan.eda.eventbus.EventBus;
+import ar.tunuyan.eda.eventbus.EventCallback;
 import ar.tunuyan.eda.executor.DispatcherException;
 
 @Service
@@ -21,7 +22,7 @@ public class Publisher {
 
 		for (int i = 0; i < numberOfQuotes; i++) {
 			try {
-				bus.send("quotes", counter.getAndIncrement());
+				bus.publish("quotes", counter.getAndIncrement());
 			} catch (DispatcherException e) {
 				e.printStackTrace();
 				break;
@@ -32,6 +33,15 @@ public class Publisher {
 
 		System.out.println("Elapsed time: " + elapsed + "ms");
 		System.out.println("Average time per quote: " + elapsed / numberOfQuotes + "ms");
+	}
+	
+	public void sendQuote(int value, EventCallback<String> callback) throws InterruptedException {
+
+			try {
+				bus.send("getQuote", value, callback);
+			} catch (DispatcherException e) {
+				e.printStackTrace();
+			}
 	}
 
 }
