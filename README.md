@@ -54,12 +54,7 @@ Now, open a new terminal and execute the following commands:
 cd microeda/microeda-test
 mvn test
 ```
-
-<<<<<<< HEAD
-After that, on the first console, you should see entry logs prefixed with "Quote n:"
-=======
-If the run executed successfully, on the first console you should see entry logs prefixed with "Quote".
->>>>>>> FETCH_HEAD
+If all tests run successfully, on the cluster console you should see entry logs prefixed with "Quote".
 
 
 TODO: continue....
