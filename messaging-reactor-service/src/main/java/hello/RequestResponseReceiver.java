@@ -1,5 +1,7 @@
 package hello;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -7,6 +9,7 @@ import ar.tunuyan.eda.eventbus.Event;
 import ar.tunuyan.eda.eventbus.handler.EventHandler;
 
 @Service("getQuote")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 class RequestResponseReceiver implements EventHandler<Integer> {
 
 	RestTemplate restTemplate = new RestTemplate();
