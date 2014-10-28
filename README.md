@@ -46,9 +46,16 @@ If everything compiled correctly, you should see something like this:
  _________________________________________________
 2014-10-27 18:10:46.950  INFO 15313 --- [main] ar.tunuyan.eda.MicroServiceBus: Starting MicroServiceBus on Jorge-MacBook-Pro.local with PID ...
  .
- .
+
  .
  2014-10-27 18:10:53.047  INFO 15313 --- [main] ar.tunuyan.eda.MicroServiceBus: Started MicroServiceBus in 6.346 seconds (JVM running for 6.67)
+```
+
+It is also possible to start the application as exploded jar as shown below. This is useful when we need to add our own jar files. Just drop the jar under target/lib folder.
+```
+$ cd target
+$ unzip -q microeda-cluster-1.0.0-SNAPSHOT.jar
+$ java org.springframework.boot.loader.JarLauncher
 ```
 
 Now, open a new terminal and execute the following commands:

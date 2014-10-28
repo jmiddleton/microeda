@@ -10,6 +10,7 @@
 	    <module>messaging-reactor-service</module>
 	    <module>microeda-cluster</module>
 	    <module>microeda-test</module>
+	    <module>microeda-web</module>
   </modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
