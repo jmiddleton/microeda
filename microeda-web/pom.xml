@@ -24,11 +24,6 @@
 			<artifactId>microeda-core</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>ar.tunuyan.eda</groupId>
-			<artifactId>microeda-view-services</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
 
 		<!-- Spring -->
 		<dependency>
