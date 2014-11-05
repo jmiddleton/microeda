@@ -334,7 +334,7 @@
 	</repositories>
 
 	<build>
-		<finalName>web-async</finalName>
+		<finalName>microeda-web</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
