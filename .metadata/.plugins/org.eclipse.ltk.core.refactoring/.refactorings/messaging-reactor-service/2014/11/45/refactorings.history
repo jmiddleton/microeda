@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Receiver.java&apos; to &apos;yummly-web/src/main/java/ar.tunuyan.yummly.service&apos;&#x0A;- Original project: &apos;messaging-reactor-service&apos;&#x0A;- Destination element: &apos;yummly-web/src/main/java/ar.tunuyan.yummly.service&apos;&#x0A;- Original element: &apos;hello.Receiver.java&apos;" description="Copy compilation unit" destination="=yummly-web/src\/main\/java&lt;ar.tunuyan.yummly.service" element1="/src\/main\/java&lt;hello{Receiver.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1415180220839" units="1" version="1.0"/>
+</session>

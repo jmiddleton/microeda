@@ -12,9 +12,9 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
+import ar.tunuyan.eda.executor.DefaultDispatcherImpl;
 import ar.tunuyan.eda.executor.Dispatcher;
 import ar.tunuyan.eda.executor.cluster.DistributedDispatcherImpl;
-import ar.tunuyan.eda.executor.local.LocalDispatcherImpl;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
@@ -58,7 +58,7 @@ public class ApplicationConfig {
 	}
 
 	private Dispatcher createLocalDispatcher() {
-		LocalDispatcherImpl dispatcher = new LocalDispatcherImpl();
+		DefaultDispatcherImpl dispatcher = new DefaultDispatcherImpl();
 		dispatcher.setExecutorService(Executors.newFixedThreadPool(10));
 		return dispatcher;
 	}

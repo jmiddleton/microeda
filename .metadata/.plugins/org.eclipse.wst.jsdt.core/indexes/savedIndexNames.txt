@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+/Users/jmiddleton/Documents/git/microeda/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+1998956559.index
+786959694.index
+961579672.index
+1351369926.index
+3174636925.index
+2099873857.index

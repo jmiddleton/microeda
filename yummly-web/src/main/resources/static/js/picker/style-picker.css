@@ -1,0 +1,37 @@
+/*----*****---- << Ultimate Style Picker >> ----*****----*/
+
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+.ultimate-style-picker-wrapper { position:fixed; z-index:99999; right:225px; top:180px; }
+
+#ultimate-style-picker { background:#ffffff; width:225px; float:left; position:absolute; top:0px; z-index:1; margin:0px; padding:0px 0px 15px; 
+text-align:center; box-shadow:0 2px 9px 2px rgba(0,0,0,0.14); -moz-box-shadow:0 2px 9px 2px rgba(0,0,0,0.14); -webkit-box-shadow:0 2px 9px 2px rgba(0,0,0,0.14);
+border-radius:0px 0px 0px 0px; behavior:url(PIE.htc); }
+#ultimate-style-picker h2 { background: #4fbadf; font-family: 'Montserrat', sans-serif; font-size: 14px; text-transform:uppercase; line-height:48px; width:100%; color:#fff; margin:0px 0px 15px; padding:0px; behavior:url(PIE.htc);  }
+#ultimate-style-picker h3 { font-family: 'Montserrat', sans-serif; font-size: 12px; padding:10px 0px 10px; width:100%; color:#7f7f7f; margin:0px; text-transform:uppercase; }
+
+#ultimate-style-picker ul { 
+	margin: auto;
+	padding: 17px 0px;
+	text-align: center;
+	width: 166px;
+	border-bottom: solid 1px #ededed;
+	border-top: solid 1px #ededed;
+}
+
+#ultimate-style-picker ul.color-picker {
+	padding: 17px 0px;
+	text-align: center;
+	width: 164px;
+	margin: auto;
+	border-bottom: none
+}
+
+#ultimate-style-picker ul li { display:inline-block; display:inline; list-style-type:none; padding:0px; margin:0px 0px 6px 0px; }
+#ultimate-style-picker ul li a { background:#ffffff; border:1px solid #ffffff; padding:2px; display:inline-block; margin:0px; }
+#ultimate-style-picker ul li a.selected, #ultimate-style-picker ul li a:hover { border:1px solid #d7d7d7; }
+#ultimate-style-picker ul li a img { border:1px solid #fff; }
+
+#ultimate-style-picker .hr { background:url(img/style-picker/seperator.png) no-repeat; width:100%; height:25px; margin:-10px 0px 10px; float:left; display: none;}
+
+.style-picker-ico { position:absolute; top:48px; left:-47px; cursor: pointer; box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14); -moz-box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14); -webkit-box-shadow: 0 2px 9px 2px rgba(0,0,0,0.14); border-radius: 0px 0px 0px 0px;}

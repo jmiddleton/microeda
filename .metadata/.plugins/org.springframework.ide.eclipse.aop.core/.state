@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="messaging-reactor-service"/>
+<aop-project name="yummly-web"/>
+<aop-project name="microeda-cluster"/>
+</aop-reference-model>
