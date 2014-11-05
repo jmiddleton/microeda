@@ -38,5 +38,7 @@ public interface Dispatcher {
 	boolean removeNode(String key, NodeID nodeId);
 
 	NodeID getOrCreateNodeID();
+	
+	boolean isDistributed();
 
 }

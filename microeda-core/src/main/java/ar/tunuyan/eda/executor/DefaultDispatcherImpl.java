@@ -1,4 +1,4 @@
-package ar.tunuyan.eda.executor.local;
+package ar.tunuyan.eda.executor;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -20,21 +20,21 @@ import ar.tunuyan.eda.eventbus.EventCallback;
 import ar.tunuyan.eda.eventbus.NodeID;
 import ar.tunuyan.eda.eventbus.ReplyException;
 import ar.tunuyan.eda.eventbus.Request;
-import ar.tunuyan.eda.executor.Dispatcher;
-import ar.tunuyan.eda.executor.DispatcherException;
-import ar.tunuyan.eda.executor.MicroServiceWrapper;
 import ar.tunuyan.eda.util.MultiMap;
 import ar.tunuyan.eda.util.MultiMapValues;
 
 /**
- * Local implementation of a Dispatches.
+ * Default dispatcher based on Java 8 {@link CompletableFuture}. This
+ * implementation uses a local {@link ExecutorService} to execute sync and async
+ * tasks.
  * 
  * @author jmiddleton
  *
  */
-public class LocalDispatcherImpl implements Dispatcher {
+public class DefaultDispatcherImpl implements Dispatcher {
 
-	private static final Logger logger = LoggerFactory.getLogger(LocalDispatcherImpl.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(DefaultDispatcherImpl.class);
 
 	private static final int MAX_SUBMIT_TRIES = 2;
 
@@ -42,7 +42,7 @@ public class LocalDispatcherImpl implements Dispatcher {
 
 	private ExecutorService executorService;
 
-	public LocalDispatcherImpl() {
+	public DefaultDispatcherImpl() {
 	}
 
 	@PostConstruct
@@ -55,34 +55,43 @@ public class LocalDispatcherImpl implements Dispatcher {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T, V> void dispatch(Request<T, V> request, NodeID... nodes) throws DispatcherException {
-		final MicroServiceWrapper callable = new MicroServiceWrapper(new Event<T>(request.getServiceName(), request.getData()));
+	public <T, V> void dispatch(Request<T, V> request, NodeID... nodes)
+			throws DispatcherException {
+		final MicroServiceWrapper callable = new MicroServiceWrapper(
+				new Event<T>(request.getServiceName(), request.getData()));
 
 		int tries = 0;
 		while (++tries <= MAX_SUBMIT_TRIES) {
-			logger.debug("Calling '{}' on cluster nodes '{}'. Event: {}", request.getServiceName(), nodes, request.getData());
+			logger.debug("Calling '{}' on cluster nodes '{}'. Event: {}",
+					request.getServiceName(), nodes, request.getData());
 			try {
 				ExecutorService executorService = getExecutionService();
 
-				CompletableFuture<V> future = (CompletableFuture<V>) CompletableFuture.supplyAsync(createSupplier(callable), executorService);
+				CompletableFuture<V> future = (CompletableFuture<V>) CompletableFuture
+						.supplyAsync(createSupplier(callable), executorService);
 
 				EventCallback<V> callback = request.getCallback();
 				if (callback != null) {
 					// execute the callback with the result in the future.
-					future.thenAcceptAsync(createConsumer(callback)).exceptionally(doHandleException(callback));
+					future.thenAcceptAsync(createConsumer(callback))
+							.exceptionally(doHandleException(callback));
 				}
 				break;
 			} catch (RuntimeException e) {
-				logger.error("Tried to submit request, but I got an exception", e);
+				logger.error("Tried to submit request, but I got an exception",
+						e);
 			}
 		}
 
 		if (tries > MAX_SUBMIT_TRIES) {
-			throw new DispatcherException("Unable to submit work locally. I tried " + MAX_SUBMIT_TRIES + " times.");
+			throw new DispatcherException(
+					"Unable to submit work locally. I tried "
+							+ MAX_SUBMIT_TRIES + " times.");
 		}
 	}
 
-	private <V> Function<Throwable, ? extends Void> doHandleException(EventCallback<V> callback) {
+	private <V> Function<Throwable, ? extends Void> doHandleException(
+			EventCallback<V> callback) {
 		return new Function<Throwable, Void>() {
 
 			@Override
@@ -126,7 +135,8 @@ public class LocalDispatcherImpl implements Dispatcher {
 	}
 
 	@Override
-	public <T, V> boolean cancelTask(UUID requestId, NodeID node) throws DispatcherException {
+	public <T, V> boolean cancelTask(UUID requestId, NodeID node)
+			throws DispatcherException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -159,5 +169,10 @@ public class LocalDispatcherImpl implements Dispatcher {
 
 	public void setExecutorService(ExecutorService executorService) {
 		this.executorService = executorService;
+	}
+
+	@Override
+	public boolean isDistributed() {
+		return false;
 	}
 }

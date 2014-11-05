@@ -51,15 +51,18 @@ public class EventBusImpl implements EventBus, ApplicationContextAware {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostConstruct
 	public void init() {
+		if (this.dispatcher != null) {
+			this.nodeID = this.dispatcher.getOrCreateNodeID();
+			this.clientMode = this.nodeID.isClient();
 
-		this.nodeID = dispatcher.getOrCreateNodeID();
-		this.clientMode = this.nodeID.isClient();
-
-		// search registered microservice in spring and register it in
-		// hazelcast so everybody in the cluster know about it.
-		Map<String, EventHandler> localMicroServices = this.appContext.getBeansOfType(EventHandler.class);
-		for (Entry<String, EventHandler> lmicro : localMicroServices.entrySet()) {
-			registerMicroService(lmicro.getKey(), lmicro.getValue());
+			// search registered microservice in spring and register it in
+			// hazelcast so everybody in the cluster know about it.
+			if (!(this.clientMode && this.dispatcher.isDistributed())) {
+				Map<String, EventHandler> localMicroServices = this.appContext.getBeansOfType(EventHandler.class);
+				for (Entry<String, EventHandler> lmicro : localMicroServices.entrySet()) {
+					registerMicroService(lmicro.getKey(), lmicro.getValue());
+				}
+			}
 		}
 	}
 
@@ -76,7 +79,8 @@ public class EventBusImpl implements EventBus, ApplicationContextAware {
 		sendOrPublish(serviceName, message, null, false);
 	}
 
-	private <V, T> void sendOrPublish(String serviceName, T data, final EventCallback<V> callback, boolean send) throws DispatcherException {
+	private <V, T> void sendOrPublish(String serviceName, T data, final EventCallback<V> callback, boolean send)
+			throws DispatcherException {
 		Assert.notNull(serviceName, "Service cannot be null.");
 		Assert.notNull(data, "Data cannot be null.");
 		try {
@@ -121,7 +125,8 @@ public class EventBusImpl implements EventBus, ApplicationContextAware {
 		Assert.notNull(serviceName, "Service name cannot be null.");
 		Assert.notNull(microservice, "EventHandler cannot be null.");
 
-		logger.debug("Registering service '{}' with name '{}' on cluster '{}'", microservice.getClass().getSimpleName(), serviceName, this.nodeID);
+		logger.debug("Registering service '{}' with name '{}' on cluster '{}'", microservice.getClass().getSimpleName(),
+				serviceName, this.nodeID);
 		this.dispatcher.putNode(serviceName, this.nodeID);
 
 		// register the service on spring appContext

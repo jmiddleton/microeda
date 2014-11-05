@@ -38,9 +38,11 @@ import com.hazelcast.core.MultiMap;
  * @author jmiddleton
  *
  */
-public class DistributedDispatcherImpl implements MembershipListener, Dispatcher {
+public class DistributedDispatcherImpl implements MembershipListener,
+		Dispatcher {
 
-	private static final Logger logger = LoggerFactory.getLogger(DistributedDispatcherImpl.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(DistributedDispatcherImpl.class);
 
 	private static final int MAX_SUBMIT_TRIES = 2;
 
@@ -69,30 +71,42 @@ public class DistributedDispatcherImpl implements MembershipListener, Dispatcher
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T, V> void dispatch(Request<T, V> request, NodeID... nodes) throws DispatcherException {
-		final MicroServiceWrapper callable = new MicroServiceWrapper(new Event<T>(request.getServiceName(), request.getData()));
+	public <T, V> void dispatch(Request<T, V> request, NodeID... nodes)
+			throws DispatcherException {
+		final MicroServiceWrapper callable = new MicroServiceWrapper(
+				new Event<T>(request.getServiceName(), request.getData()));
 
 		int tries = 0;
 		while (++tries <= MAX_SUBMIT_TRIES) {
-			logger.debug("Calling '{}' on cluster nodes '{}'. Event: {}", request.getServiceName(), nodes, request.getData());
+			logger.debug("Calling '{}' on cluster nodes '{}'. Event: {}",
+					request.getServiceName(), nodes, request.getData());
 			try {
 				IExecutorService executorService = getExecutionService();
 				if (request.getCallback() != null) {
-					ExecutionCallback<V> executionCallback = createCallbackAdapter(request, nodes);
-					executorService.submit((Callable<V>) callable, getMemberSelector(nodes), executionCallback);
+					ExecutionCallback<V> executionCallback = createCallbackAdapter(
+							request, nodes);
+					executorService.submit((Callable<V>) callable,
+							getMemberSelector(nodes), executionCallback);
 				} else {
-					executorService.submitToMembers(callable, getMemberSelector(nodes));
+					executorService.submitToMembers(callable,
+							getMemberSelector(nodes));
 				}
 				break;
 			} catch (RejectedExecutionException ree) {
-				logger.error("Tried to distribute request, but I got a rejected execution exception", ree);
+				logger.error(
+						"Tried to distribute request, but I got a rejected execution exception",
+						ree);
 			} catch (RuntimeException e) {
-				logger.error("Tried to distribute request, but I got an exception", e);
+				logger.error(
+						"Tried to distribute request, but I got an exception",
+						e);
 			}
 		}
 
 		if (tries > MAX_SUBMIT_TRIES) {
-			throw new DispatcherException("Unable to submit work to nodes. I tried " + MAX_SUBMIT_TRIES + " times.");
+			throw new DispatcherException(
+					"Unable to submit work to nodes. I tried "
+							+ MAX_SUBMIT_TRIES + " times.");
 		}
 	}
 
@@ -109,7 +123,8 @@ public class DistributedDispatcherImpl implements MembershipListener, Dispatcher
 	}
 
 	@Override
-	public <T, V> boolean cancelTask(UUID requestId, NodeID node) throws DispatcherException {
+	public <T, V> boolean cancelTask(UUID requestId, NodeID node)
+			throws DispatcherException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -128,7 +143,8 @@ public class DistributedDispatcherImpl implements MembershipListener, Dispatcher
 				InetSocketAddress socket = member.getSocketAddress();
 				for (int i = 0; i < nodes.length; i++) {
 					NodeID node = nodes[i];
-					if (node.getHost().equals(socket.getHostName()) && node.getPort() == socket.getPort()) {
+					if (node.getHost().equals(socket.getHostName())
+							&& node.getPort() == socket.getPort()) {
 						return true;
 					}
 				}
@@ -137,7 +153,8 @@ public class DistributedDispatcherImpl implements MembershipListener, Dispatcher
 		};
 	}
 
-	private <T, V> ExecutionCallback<V> createCallbackAdapter(Request<T, V> request, NodeID... nodes) {
+	private <T, V> ExecutionCallback<V> createCallbackAdapter(
+			Request<T, V> request, NodeID... nodes) {
 		if (request.getCallback() == null) {
 			return null;
 		}
@@ -172,7 +189,8 @@ public class DistributedDispatcherImpl implements MembershipListener, Dispatcher
 
 	@Override
 	public void memberRemoved(MembershipEvent membershipEvent) {
-		String host = membershipEvent.getMember().getSocketAddress().getHostName();
+		String host = membershipEvent.getMember().getSocketAddress()
+				.getHostName();
 		int port = membershipEvent.getMember().getSocketAddress().getPort();
 
 		NodeID nodeId = new NodeID(host, port);
@@ -188,7 +206,8 @@ public class DistributedDispatcherImpl implements MembershipListener, Dispatcher
 		// removing node from the service registry
 		for (String key : lstRemove) {
 			boolean result = removeNode(key, nodeId);
-			logger.debug("Removing service '{}' from node '{}'. Result: {}", key, nodeId, result);
+			logger.debug("Removing service '{}' from node '{}'. Result: {}",
+					key, nodeId, result);
 		}
 
 	}
@@ -202,10 +221,17 @@ public class DistributedDispatcherImpl implements MembershipListener, Dispatcher
 	@Override
 	public NodeID getOrCreateNodeID() {
 		try {
-			Member localMember = hazelcastInstance.getCluster().getLocalMember();
-			return new NodeID(localMember.getSocketAddress().getHostName(), localMember.getSocketAddress().getPort());
+			Member localMember = hazelcastInstance.getCluster()
+					.getLocalMember();
+			return new NodeID(localMember.getSocketAddress().getHostName(),
+					localMember.getSocketAddress().getPort());
 		} catch (UnsupportedOperationException e) {
 			return new NodeID("localhost", -1);
 		}
+	}
+
+	@Override
+	public boolean isDistributed() {
+		return true;
 	}
 }
